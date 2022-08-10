@@ -4,6 +4,7 @@ const express = require('express');
 const { SERVER_RUNNING, DB_CONNECTION_ERROR, DB_CONNECTED } = require('./constants/serverMessages');
 
 require('dotenv').config();
+const routes = require('./routes');
 
 start();
 
@@ -20,6 +21,7 @@ async function start() {
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-
+    app.use(routes);
+    
     app.listen(3030, () => console.log(SERVER_RUNNING));
 }
