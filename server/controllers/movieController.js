@@ -5,7 +5,8 @@ const movieService = require('../services/movieService');
 const errorMapper = require('../utils/errorMapper');
 
 router.get('/', async (request, response) => {
-    const allMovies = await movieService.getAllMovies();
+    const { search, limit, skip } = request.query;
+    const allMovies = search ? await movieService.findMoviesByTitle(search) : await movieService.getAllMovies(limit, skip);
     response.json(allMovies);
 });
 
@@ -35,6 +36,12 @@ router.put('/:id', idPreloadMiddleware(movieService), async (request, response) 
         response.status(400).json({ message: errorMessage });
     }
 });
+
+router.get('/:id', idPreloadMiddleware(movieService), async (request, response) => {
+    response.json(response.locals.item);
+});
+
+router.get('')
 
 function handleUniqueConstraintError(errorMessage) {
     if (errorMessage.includes('duplicate')) {

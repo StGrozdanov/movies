@@ -1,6 +1,6 @@
 const Movie = require('../models/Movie');
 
-const getAllMovies = () => Movie.find({});
+const getAllMovies = (limit, skip) => limit ? Movie.find({}).skip(skip).limit(limit) : Movie.find({});
 
 const getById = (id) => Movie.findById(id);
 
@@ -19,10 +19,13 @@ const editMovie = async (existingMovie, newMovieData) => {
     return existingMovie;
 }
 
+const findMoviesByTitle = (query) => Movie.find({title: {$regex: new RegExp(query, 'i') }})
+
 module.exports = {
     getAllMovies,
     createMovie,
     deleteMovie,
     editMovie,
     getById,
+    findMoviesByTitle,
 };
