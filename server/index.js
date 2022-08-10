@@ -1,14 +1,18 @@
 const mongoose = require('mongoose');
 const express = require('express');
 
+const { SERVER_RUNNING, DB_CONNECTION_ERROR, DB_CONNECTED } = require('./constants/serverMessages');
+
+require('dotenv').config();
+
 start();
 
 async function start() {
     try {
-        const database = await mongoose.connect('mongodb://localhost:27017/movies_db');
-        console.log('Database connected');
+        await mongoose.connect(process.env.DB_URL);
+        console.log(DB_CONNECTED);
     } catch (err) {
-        console.log('Error connecting to database');
+        console.log(DB_CONNECTION_ERROR);
         return process.exit(1);
     }
 
@@ -17,5 +21,5 @@ async function start() {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
-    app.listen(3030, () => console.log('Server is running on port 3030'));
+    app.listen(3030, () => console.log(SERVER_RUNNING));
 }
