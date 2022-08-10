@@ -1,6 +1,6 @@
 const Movie = require('../models/Movie');
 
-const getAllMovies = (limit, skip) => limit ? Movie.find({}).skip(skip).limit(limit) : Movie.find({});
+const getAllMovies = (limit, skip) => limit ? Movie.find({}).limit(limit).skip(skip * limit) : Movie.find({});
 
 const getById = (id) => Movie.findById(id);
 

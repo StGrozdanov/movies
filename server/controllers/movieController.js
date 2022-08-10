@@ -41,9 +41,7 @@ router.get('/:id', idPreloadMiddleware(movieService), async (request, response) 
     response.json(response.locals.item);
 });
 
-router.get('')
-
-function handleUniqueConstraintError(errorMessage) {
+    function handleUniqueConstraintError(errorMessage) {
     if (errorMessage.includes('duplicate')) {
         errorMessage = 'There is already a movie with the same title.';
     }
