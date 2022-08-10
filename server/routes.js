@@ -6,6 +6,6 @@ const userController = require('./controllers/userController');
 
 const router = express.Router();
 
-router.use('/', movieController);
+router.use('/movies', movieController);
 
 module.exports = router;
