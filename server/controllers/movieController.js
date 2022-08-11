@@ -4,6 +4,7 @@ const idPreloadMiddleware = require('../middlewares/idPreloadMiddleware');
 const movieService = require('../services/movieService');
 const errorMapper = require('../utils/errorMapper');
 const isAuthorized = require('../middlewares/authorizationMiddleware');
+const isOwner = require('../middlewares/resourceOwnerMiddleware');
 
 router.get('/', async (request, response) => {
     const { search, limit, skip } = request.query;
@@ -23,12 +24,12 @@ router.post('/', isAuthorized(), async (request, response) => {
     }
 });
 
-router.delete('/:id', idPreloadMiddleware(movieService), async (request, response) => {
+router.delete('/:id', idPreloadMiddleware(movieService), isAuthorized(), isOwner(), async (request, response) => {
     await movieService.deleteMovie(request.params.id);
     response.json({});
 });
 
-router.put('/:id', idPreloadMiddleware(movieService), async (request, response) => {
+router.put('/:id', idPreloadMiddleware(movieService), isAuthorized(), isOwner(), async (request, response) => {
     try {
         const editedMovie = await movieService.editMovie(response.locals.item, request.body);
         response.json(editedMovie);
