@@ -4,15 +4,23 @@ const errorMapper = require('../utils/errorMapper');
 const authenticationService = require('../services/authenticationService');
 
 router.post('/register', async (request, response) => {
+    await authenticateUser(request, response, authenticationService.register);
+});
+
+router.post('/login', async (request, response) => {
+    await authenticateUser(request, response, authenticationService.login);
+});
+
+async function authenticateUser(request, response, action) {
     try {
-        const registeredUser = await authenticationService.register(request.body);
-        response.json(registeredUser);
+        const user = await action(request.body);
+        response.json(user);
     } catch (error) {
-        console.log(`Error happened durring user registration: ${error}`);
+        console.log(`Error happened durring user authentication: ${error}`);
         let errorMessage = handleUniqueConstraintError(errorMapper(error));
         response.status(400).json({ message: errorMessage });
     }
-});
+}
 
 function handleUniqueConstraintError(errorMessage) {
     if (errorMessage.includes('duplicate')) {

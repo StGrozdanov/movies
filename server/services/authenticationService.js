@@ -18,7 +18,18 @@ const register = async ({ username, password }) => {
     } catch (error) {
         throw new Error(error.message);
     }
+
 };
+
+const login = async ({ username, password }) => {
+    const user = await User.findOne({ username });
+    handleLoginError(user);
+
+    const match = await bcrypt.compare(password.toString(), user.password);
+    handleLoginError(match);
+
+    return createSession(user); l
+}
 
 function createSession(user) {
     const payload = { username: user.username, _id: user._id };
@@ -32,6 +43,13 @@ function createSession(user) {
     };
 };
 
+function handleLoginError(condition) {
+    if (!condition) {
+        throw new Error('Incorrect email or password');
+    }
+}
+
 module.exports = {
     register,
+    login,
 };
