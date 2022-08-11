@@ -13,6 +13,7 @@ router.post('/login', async (request, response) => {
 
 router.post('/logout', async (request, response) => {
     await authenticationService.logout(request.body);
+    response.status(200).json({});
 });
 
 async function authenticateUser(request, response, action) {

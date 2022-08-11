@@ -1,11 +1,11 @@
 const { validateToken } = require('../services/authenticationService');
 
-module.exports = () => (request, response, next) => {
+module.exports = () => async (request, response, next) => {
     const token = request.headers['x-authorization'];
 
     if (token) {
         try {
-            const payload = validateToken(token);
+            const payload = await validateToken(token);
 
             request.user = {
                 username: payload.username,

@@ -60,8 +60,9 @@ function handleLoginError(condition) {
     }
 }
 
-function validateToken(token) {
-    if (blacklistService.contains(token) === null) {
+async function validateToken(token) {
+    const blacklisted = await blacklistService.contains(token);
+    if (blacklisted !== null) {
         throw new Error('Token is blacklisted');
     }
     return jwt.verify(token, process.env.JWT_SECRET);

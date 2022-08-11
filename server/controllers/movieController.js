@@ -13,6 +13,7 @@ router.get('/', async (request, response) => {
 
 router.post('/', isAuthorized(), async (request, response) => {
     try {
+        console.log(request.user)
         const createdMovie = await movieService.createMovie(request.body, request.user._id);
         response.status(201).json(createdMovie);
     } catch (error) {
