@@ -1,9 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import styles from './Login.module.css';
 
 function Login() {
     return (
-        <div style={{ width: '30vw', margin: '20px auto' }}>
+        <div className={styles.container}>
             <h3 style={{ textAlign: "center" }}>Login</h3>
             <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
