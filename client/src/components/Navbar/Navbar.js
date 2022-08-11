@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { NavLink } from "react-router-dom";
+
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -11,7 +13,7 @@ function Navigation() {
     return (
         <Navbar bg="light" expand="lg">
             <Container fluid>
-                <Navbar.Brand href="/">Movies</Navbar.Brand>
+                <Navbar.Brand as={NavLink} to="/">Movies</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
@@ -20,9 +22,9 @@ function Navigation() {
                         activeKey={active}
                         onSelect={(selectedKey) => setActive(selectedKey)}
                     >
-                        <Nav.Link eventKey={'home'} href="/">Home</Nav.Link>
-                        <Nav.Link eventKey={'login'} href="/login">Login</Nav.Link>
-                        <Nav.Link eventKey={'register'} href="/register">Register</Nav.Link>
+                        <Nav.Link as={NavLink} to="/" eventKey={'home'} >Home</Nav.Link>
+                        <Nav.Link as={NavLink} to="/login" eventKey={'login'}>Login</Nav.Link>
+                        <Nav.Link as={NavLink} to="/register" eventKey={'register'}>Register</Nav.Link>
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control

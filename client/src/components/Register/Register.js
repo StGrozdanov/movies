@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 
 function Register() {
     return (
-        <div style={{ width: '80vw', margin: '20px auto' }}>
+        <div style={{ width: '30vw', margin: '20px auto' }}>
             <h3 style={{ textAlign: "center" }}>Register</h3>
             <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -20,9 +20,7 @@ function Register() {
                     <Form.Label>Repeat Password</Form.Label>
                     <Form.Control type="password" placeholder="Repeat Password" />
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
+                <Button variant="primary" type="submit" >Submit</Button>
             </Form>
         </div>
     )
