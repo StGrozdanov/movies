@@ -5,6 +5,7 @@ const { SERVER_RUNNING, DB_CONNECTION_ERROR, DB_CONNECTED } = require('./constan
 
 require('dotenv').config();
 const routes = require('./routes');
+const blacklistScheduler = require('./schedulers/blacklistScheduler');
 
 start();
 
@@ -22,6 +23,8 @@ async function start() {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(routes);
+
+    await blacklistScheduler();
     
     app.listen(3030, () => console.log(SERVER_RUNNING));
 }

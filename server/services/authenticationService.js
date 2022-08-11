@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
+const blacklistService = require('../services/blacklistService');
 
 const register = async ({ username, password }) => {
     password = password.toString();
@@ -31,10 +32,20 @@ const login = async ({ username, password }) => {
     return createSession(user); l
 }
 
+const logout = async (token) => {
+    try {
+        await blacklistService.addToBlacklist(token.sessionToken);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 function createSession(user) {
     const payload = { username: user.username, _id: user._id };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_DURRATION,
+    });
 
     return {
         username: user.username,
@@ -52,4 +63,5 @@ function handleLoginError(condition) {
 module.exports = {
     register,
     login,
+    logout,
 };

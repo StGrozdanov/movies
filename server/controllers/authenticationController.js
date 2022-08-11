@@ -11,6 +11,10 @@ router.post('/login', async (request, response) => {
     await authenticateUser(request, response, authenticationService.login);
 });
 
+router.post('/logout', async (request, response) => {
+    await authenticationService.logout(request.body);
+});
+
 async function authenticateUser(request, response, action) {
     try {
         const user = await action(request.body);
