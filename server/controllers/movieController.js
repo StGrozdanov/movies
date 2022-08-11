@@ -3,6 +3,7 @@ const router = require('express').Router();
 const idPreloadMiddleware = require('../middlewares/idPreloadMiddleware');
 const movieService = require('../services/movieService');
 const errorMapper = require('../utils/errorMapper');
+const isAuthorized = require('../middlewares/authorizationMiddleware');
 
 router.get('/', async (request, response) => {
     const { search, limit, skip } = request.query;
@@ -10,9 +11,9 @@ router.get('/', async (request, response) => {
     response.json(allMovies);
 });
 
-router.post('/', async (request, response) => {
+router.post('/', isAuthorized(), async (request, response) => {
     try {
-        const createdMovie = await movieService.createMovie(request.body);
+        const createdMovie = await movieService.createMovie(request.body, request.user._id);
         response.status(201).json(createdMovie);
     } catch (error) {
         console.log(`Error happened durring movie edit: ${error}`);
@@ -41,9 +42,9 @@ router.get('/:id', idPreloadMiddleware(movieService), async (request, response) 
     response.json(response.locals.item);
 });
 
-router.post('/like/:id', idPreloadMiddleware(movieService), async (request, response) => {
+router.post('/like/:id', isAuthorized(), idPreloadMiddleware(movieService), async (request, response) => {
     try {
-        const likesCount = await movieService.likeMovie(response.locals.item, request.body)
+        const likesCount = await movieService.likeMovie(response.locals.item, request.user._id)
         response.json({likesCount: likesCount}).status(201);
     } catch (error) {
         response.status(400).json({ message: error.message });

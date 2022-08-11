@@ -17,7 +17,10 @@ const clearExpiredTokens = async () => {
     expiredTokens.deleteMany();
 }
 
+const contains = (token) => Blacklist.exists({ token });
+
 module.exports = {
     addToBlacklist,
     clearExpiredTokens,
+    contains,
 }

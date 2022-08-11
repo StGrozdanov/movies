@@ -60,8 +60,16 @@ function handleLoginError(condition) {
     }
 }
 
+function validateToken(token) {
+    if (blacklistService.contains(token) === null) {
+        throw new Error('Token is blacklisted');
+    }
+    return jwt.verify(token, process.env.JWT_SECRET);
+}
+
 module.exports = {
     register,
     login,
     logout,
+    validateToken
 };

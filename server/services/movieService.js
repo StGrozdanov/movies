@@ -4,7 +4,7 @@ const getAllMovies = (limit, skip) => limit ? Movie.find({}).limit(limit).skip(s
 
 const getById = (id) => Movie.findById(id);
 
-const createMovie = (requestBody) => Movie.create(requestBody);
+const createMovie = (requestBody, _ownerId) => Movie.create({ ...requestBody, _ownerId });
 
 const deleteMovie = (movieId) => Movie.findByIdAndDelete(movieId);
 
@@ -22,10 +22,10 @@ const editMovie = async (existingMovie, newMovieData) => {
 const findMoviesByTitle = (query) => Movie.find({title: {$regex: new RegExp(query, 'i') }});
 
 const likeMovie = (movie, userId) => {
-    if (movie.likedBy.includes(userId.userId)) {
+    if (movie.likedBy.includes(userId)) {
         throw new Error('You already liked this movie.');
     }
-    movie.likedBy.push(userId.userId);
+    movie.likedBy.push(userId);
     movie.save();
 
     return movie.likedBy.length;

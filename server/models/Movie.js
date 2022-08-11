@@ -30,7 +30,7 @@ const movieSchema = new Schema({
         required: [true, 'Movie description is required.'],
     },
     likedBy: [ { type: ObjectId, ref: 'User' } ],
-    _ownerId: { type: ObjectId, ref: 'User' }
+    _ownerId: { type: ObjectId, ref: 'User', required: [true, 'You cannot create a movie without owner'] }
 });
 
 const Movie = model('Movie', movieSchema);
