@@ -7,5 +7,6 @@ const userController = require('./controllers/userController');
 const router = express.Router();
 
 router.use('/movies', movieController);
+router.use('/authenticate', authenticationController);
 
 module.exports = router;

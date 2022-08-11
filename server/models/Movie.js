@@ -1,4 +1,4 @@
-const { model, Schema } = require('mongoose');
+const { model, Schema, Types: { ObjectId } } = require('mongoose');
 
 const currentDate = new Date(Date.now());
 const currentYear = currentDate.getFullYear();
@@ -28,7 +28,9 @@ const movieSchema = new Schema({
     description: {
         type: String,
         required: [true, 'Movie description is required.'],
-    }
+    },
+    likedBy: [ { type: ObjectId, ref: 'User' } ],
+    _ownerId: { type: ObjectId, ref: 'User' }
 });
 
 const Movie = model('Movie', movieSchema);

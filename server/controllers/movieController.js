@@ -41,7 +41,16 @@ router.get('/:id', idPreloadMiddleware(movieService), async (request, response) 
     response.json(response.locals.item);
 });
 
-    function handleUniqueConstraintError(errorMessage) {
+router.post('/like/:id', idPreloadMiddleware(movieService), async (request, response) => {
+    try {
+        const likesCount = await movieService.likeMovie(response.locals.item, request.body)
+        response.json({likesCount: likesCount}).status(201);
+    } catch (error) {
+        response.status(400).json({ message: error.message });
+    }
+});
+
+function handleUniqueConstraintError(errorMessage) {
     if (errorMessage.includes('duplicate')) {
         errorMessage = 'There is already a movie with the same title.';
     }
