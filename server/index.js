@@ -6,6 +6,7 @@ const { SERVER_RUNNING, DB_CONNECTION_ERROR, DB_CONNECTED } = require('./constan
 require('dotenv').config();
 const routes = require('./routes');
 const blacklistScheduler = require('./schedulers/blacklistScheduler');
+const cors = require('./middlewares/corsMiddleware');
 
 start();
 
@@ -23,6 +24,7 @@ async function start() {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(routes);
+    app.use(cors);
 
     await blacklistScheduler();
     
