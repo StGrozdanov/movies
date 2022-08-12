@@ -9,7 +9,8 @@ const MOVIES_END_POINTS = {
     ALL_MOVIES: (page) =>  `${MOVIE_END_POINT}?limit=${MOVIES_PER_PAGE}&skip=${(page - 1)}`,
     COUNT_MOVIES: `${MOVIE_END_POINT}/count/all`,
     CREATE_MOVIE: `${MOVIE_END_POINT}`,
-    SINGLE_MOVIE: (movieId) => `${MOVIE_END_POINT}/${movieId}`
+    SINGLE_MOVIE: (movieId) => `${MOVIE_END_POINT}/${movieId}`,
+    SEARCH_BY_TITLE: (query) => `${MOVIE_END_POINT}?search=${query}`,
 }
 
 export async function getAllMovies(page) {
@@ -33,5 +34,10 @@ export async function createMovie(movieData, token) {
 
 export async function getSingleMovie(movieId) {
     const response = await fetch(BASE_URL + MOVIES_END_POINTS.SINGLE_MOVIE(movieId));
+    return handleRequest(response, COULD_NOT_FETCH_MOVIES);
+}
+
+export async function searchByMovieTitle(query) {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.SEARCH_BY_TITLE(query));
     return handleRequest(response, COULD_NOT_FETCH_MOVIES);
 }

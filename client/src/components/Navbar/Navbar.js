@@ -18,6 +18,15 @@ function Navigation() {
     const isAuthenticated = authenticationState.isAuthenticated;
     const user = authenticationState.user;
 
+    function searchHandler(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const query = formData.get('search');
+        if (query.trim() !== '') {
+            navigate(`/search?whereName=${query}`)
+        }
+    }
+
     return (
         <Navbar bg="light" expand="lg">
             <Container fluid>
@@ -40,14 +49,15 @@ function Navigation() {
                     <p style={{ margin: 0, marginRight: 20 }}>
                         Welcome, {isAuthenticated ? user.username : 'Guest'}
                     </p>
-                    <Form className="d-flex">
+                    <Form className="d-flex" onSubmit={searchHandler}>
                         <Form.Control
                             type="search"
                             placeholder="Search"
                             className="me-2"
                             aria-label="Search"
+                            name='search'
                         />
-                        <Button variant="outline-success">Search</Button>
+                        <Button variant="outline-success" type='submit'>Search</Button>
                     </Form>
                 </Navbar.Collapse>
             </Container>

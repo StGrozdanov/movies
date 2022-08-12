@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination';
-import { getAllMovies } from '../../services/movieService';
 
-function PaginationBar({ moviesCount, setMovies }) {
+function PaginationBar({ moviesCount }) {
   const [active, setActive] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,8 +14,6 @@ function PaginationBar({ moviesCount, setMovies }) {
   async function buttonClickHandler(number) {
     setActive(number);
     navigate(`?page=${number}`);
-    const movies = await getAllMovies(number);
-    setMovies(movies);
   }
 
   let items = [];

@@ -4,12 +4,17 @@ import { getSingleMovie } from "../../services/movieService";
 
 function MovieDetails() {
     const [movie, setMovie] = useState({});
+    const [likes, setLikes] = useState(0);
     const params = useParams();
     const movieId = params.id;
 
     useEffect(() => {
-        getSingleMovie(movieId).then(movie => setMovie(movie)).catch(err => console.log(err));
-        console.log(movie);
+        getSingleMovie(movieId)
+            .then(movie => {
+                setMovie(movie);
+                setLikes(movie.likedBy.length);
+            })
+            .catch(err => console.log(err));
     }, []);
 
     return (
@@ -37,7 +42,7 @@ function MovieDetails() {
                             }}
                         >
                             <button className="btn btn-primary" style={{ marginRight: 10 }}>Like</button>
-                            <span>Likes: {movie.likedBy.length}</span>
+                            <span>Likes: {likes}</span>
                         </div>
                     </div>
                 </div>
