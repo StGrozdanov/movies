@@ -1,11 +1,11 @@
-const login = (user) => {
+export const loginAction = (user) => {
     return {
         type: "LOG_IN",
         payload: { user, isAuthenticated: true }
     }
 }
 
-const logout = () => {
+export const logoutAction = () => {
     return {
         type: "LOG_OUT",
     }
