@@ -41,6 +41,8 @@ const dislikeMovie = async (movie, userId) => {
     return movie.likedBy.length;
 }
 
+const moviesWithOwner = (userId) => Movie.find({ _ownerId: userId });
+
 const moviesCount = () => Movie.countDocuments({}).exec();
 
 module.exports = {
@@ -53,4 +55,5 @@ module.exports = {
     likeMovie,
     moviesCount,
     dislikeMovie,
+    moviesWithOwner,
 };

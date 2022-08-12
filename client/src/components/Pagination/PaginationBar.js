@@ -7,7 +7,7 @@ function PaginationBar({ moviesCount }) {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const currentPage = Number(location.search.split('=')[1]);
+  const currentPage = Number(location.search.split('=')[1]) || 1;
 
   const totalPages = Math.ceil(moviesCount / 4);
 

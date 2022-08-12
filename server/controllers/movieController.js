@@ -67,6 +67,11 @@ router.get('/count/all', async (request, response) => {
     response.json({ count: moviesCount })
 });
 
+router.get('/createdBy/:ownerId', async (request, response) => {
+    const movies = await movieService.moviesWithOwner(request.params.ownerId);
+    response.json(movies)
+});
+
 function handleUniqueConstraintError(errorMessage) {
     if (errorMessage.includes('duplicate')) {
         errorMessage = 'There is already a movie with the same title.';
