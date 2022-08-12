@@ -1,19 +1,41 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+
+import { loginAction } from '../../redux/actions/authenticationAction';
+import { register } from '../../services/userService';
 import styles from './Register.module.css';
 
 function Register() {
     const [password, setPassword] = useState('');
     const [validated, setValidated] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
+            setValidated(true);
+            return;
         }
-        setValidated(true);
+
+        const formData = new FormData(event.target);
+        let { username, password } = Object.fromEntries(formData);
+
+        const response = await register({ username, password });
+        const data = await response.json();
+
+        if (response.ok) {
+            dispatch(loginAction(data));
+            navigate('/');
+        } else {
+            setValidated(false);
+        }
     };
 
     return (
@@ -22,7 +44,7 @@ function Register() {
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" placeholder="Username.." required minLength={3} />
+                    <Form.Control type="text" placeholder="Username.." name='username' required minLength={3} />
                     <Form.Control.Feedback type="invalid">
                         Usernames should be at least 3 characters long.
                     </Form.Control.Feedback>
@@ -36,6 +58,7 @@ function Register() {
                         placeholder="Password.."
                         required
                         minLength={5}
+                        name='password'
                         onInput={(e) => setPassword(e.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">
@@ -44,7 +67,7 @@ function Register() {
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3" controlId="formBasicRePassword">
                     <Form.Label>Repeat password</Form.Label>
                     <Form.Control
                         type="password"

@@ -27,3 +27,12 @@ export async function logout(sessionToken) {
     });
     await handleRequest(response, COULD_NOT_LOGOUT);
 }
+
+export async function register(credentials) {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.REGISTER, {
+        method: 'POST',
+        headers: BASE_HEADERS,
+        body: JSON.stringify(credentials)
+    });
+    return response;
+}
