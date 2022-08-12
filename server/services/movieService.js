@@ -19,13 +19,23 @@ const editMovie = async (existingMovie, newMovieData) => {
     return existingMovie;
 }
 
-const findMoviesByTitle = (query) => Movie.find({title: {$regex: new RegExp(query, 'i') }});
+const findMoviesByTitle = (query) => Movie.find({ title: { $regex: new RegExp(query, 'i') } });
 
 const likeMovie = (movie, userId) => {
     if (movie.likedBy.includes(userId)) {
         throw new Error('You already liked this movie.');
     }
     movie.likedBy.push(userId);
+    movie.save();
+
+    return movie.likedBy.length;
+}
+
+const dislikeMovie = async (movie, userId) => {
+    if (!movie.likedBy.includes(userId)) {
+        throw new Error('You cannot dislike something that you have not liked.');
+    }
+    await movie.likedBy.pull({ _id: userId });
     movie.save();
 
     return movie.likedBy.length;
@@ -42,4 +52,5 @@ module.exports = {
     findMoviesByTitle,
     likeMovie,
     moviesCount,
+    dislikeMovie,
 };

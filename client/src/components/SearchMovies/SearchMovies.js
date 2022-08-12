@@ -11,7 +11,7 @@ function SearchMovies() {
 
     useEffect(() => {
         searchByMovieTitle(query).then(movies => setMovies(movies)).catch(error => console.log(error));
-    }, [movies]);
+    }, [location]);
 
     return (
         <MovieList

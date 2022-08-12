@@ -12,7 +12,7 @@ function Catalogue() {
     useEffect(() => {
         const currentPage = location.search.split('=')[1] || 1;
         getAllMovies(currentPage).then(movies => setMovies(movies)).catch(err => console.log(err));
-    }, [movies]);
+    }, [location]);
 
     useEffect(() => {
         countMovies().then(movies => setMoviesCount(movies.count)).catch(err => console.log(err));

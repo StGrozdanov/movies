@@ -1,11 +1,32 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleMovie } from "../../services/movieService";
+import { getSingleMovie, likeMovie, unlikeMovie } from "../../services/movieService";
+import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
+import { useSelector } from "react-redux";
+
+function LikesButton({ handler, title, className }) {
+    return (
+        <button
+            className={className}
+            style={{ marginRight: 10 }}
+            onClick={handler}
+        >
+            {title}
+        </button>
+    );
+}
 
 function MovieDetails() {
     const [movie, setMovie] = useState({});
     const [likes, setLikes] = useState(0);
+    const [likedByCurrentUser, setLikedByCurrentUser] = useState(false);
+
     const params = useParams();
+    const authenticationState = useSelector(state => state.authenticationState);
+    const currentUser = authenticationState.user;
+    const isAuthenticated = authenticationState.isAuthenticated;
+
     const movieId = params.id;
 
     useEffect(() => {
@@ -13,9 +34,22 @@ function MovieDetails() {
             .then(movie => {
                 setMovie(movie);
                 setLikes(movie.likedBy.length);
+                movie.likedBy.includes(currentUser._id) && setLikedByCurrentUser(true);
             })
             .catch(err => console.log(err));
     }, []);
+
+    async function likeHandler() {
+        await likeMovie(movieId, currentUser.sessionToken);
+        setLikes((likes) => likes += 1);
+        setLikedByCurrentUser(true);
+    }
+
+    async function unlikeHandler() {
+        await unlikeMovie(movieId, currentUser.sessionToken);
+        setLikes((likes) => likes -= 1);
+        setLikedByCurrentUser(false);
+    }
 
     return (
         <div className="card mb-3" style={{ width: '60vw', margin: '20px auto' }}>
@@ -41,9 +75,37 @@ function MovieDetails() {
                                 justifyContent: 'center',
                             }}
                         >
-                            <button className="btn btn-primary" style={{ marginRight: 10 }}>Like</button>
-                            <span>Likes: {likes}</span>
+                            {
+                                isAuthenticated
+                                    ?
+                                    likedByCurrentUser
+                                        ? <LikesButton title={'Unlike'} handler={unlikeHandler} className={'btn btn-danger'} />
+                                        : <LikesButton title={'Like'} handler={likeHandler} className={'btn btn-success'} />
+                                    : ''
+
+                            }
+                            <Badge bg="primary" style={{ padding: 5, fontSize: '100%' }}>
+                                <span style={{ marginRight: 5 }}>Likes</span>
+                                <Badge bg="info">{likes}</Badge>
+                            </Badge>
                         </div>
+                        {
+                            isAuthenticated
+                            &&
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignContent: 'center',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginTop: 20,
+                                }}
+                            >
+                                <Button variant="warning" style={{ width: 75, marginRight: 20 }}>Edit</Button>
+                                <Button variant="danger" style={{ width: 75 }}>Delete</Button>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>

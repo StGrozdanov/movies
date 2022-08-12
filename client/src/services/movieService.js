@@ -11,6 +11,8 @@ const MOVIES_END_POINTS = {
     CREATE_MOVIE: `${MOVIE_END_POINT}`,
     SINGLE_MOVIE: (movieId) => `${MOVIE_END_POINT}/${movieId}`,
     SEARCH_BY_TITLE: (query) => `${MOVIE_END_POINT}?search=${query}`,
+    LIKE_MOVIE: (movieId) => `${MOVIE_END_POINT}/like/${movieId}`,
+    UNLIKE_MOVIE: (movieId) => `${MOVIE_END_POINT}/dislike/${movieId}`,
 }
 
 export async function getAllMovies(page) {
@@ -40,4 +42,20 @@ export async function getSingleMovie(movieId) {
 export async function searchByMovieTitle(query) {
     const response = await fetch(BASE_URL + MOVIES_END_POINTS.SEARCH_BY_TITLE(query));
     return handleRequest(response, COULD_NOT_FETCH_MOVIES);
+}
+
+export async function likeMovie(movieId, token) {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.LIKE_MOVIE(movieId), {
+        method: 'POST',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(token),
+    });
+    return handleRequest(response, COULD_NOT_CREATE_MOVIE);
+}
+
+export async function unlikeMovie(movieId, token) {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.UNLIKE_MOVIE(movieId), {
+        method: 'POST',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(token),
+    });
+    return handleRequest(response, COULD_NOT_CREATE_MOVIE);
 }

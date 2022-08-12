@@ -53,6 +53,15 @@ router.post('/like/:id', isAuthorized(), idPreloadMiddleware(movieService), asyn
     }
 });
 
+router.post('/dislike/:id', isAuthorized(), idPreloadMiddleware(movieService), async (request, response) => {
+    try {
+        const likesCount = await movieService.dislikeMovie(response.locals.item, request.user._id)
+        response.json({ likesCount: likesCount }).status(201);
+    } catch (error) {
+        response.status(400).json({ message: error.message });
+    }
+});
+
 router.get('/count/all', async (request, response) => {
     const moviesCount = await movieService.moviesCount();
     response.json({ count: moviesCount })
