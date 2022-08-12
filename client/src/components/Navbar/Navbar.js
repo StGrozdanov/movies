@@ -25,6 +25,7 @@ function Navigation() {
                         <Nav.Link as={NavLink} to="/" eventKey={'home'} >Home</Nav.Link>
                         <Nav.Link as={NavLink} to="/login" eventKey={'login'}>Login</Nav.Link>
                         <Nav.Link as={NavLink} to="/register" eventKey={'register'}>Register</Nav.Link>
+                        <Nav.Link as={NavLink} to="/create" eventKey={'create'}>Create Movie</Nav.Link>
                     </Nav>
                     <Form className="d-flex">
                         <Form.Control

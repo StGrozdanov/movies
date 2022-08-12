@@ -5,6 +5,7 @@ import Footer from './components/Footer/Footer';
 import Catalogue from './components/Catalogue/Catalogue';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
+import CreateMovie from './components/CreateMovie/CreateMovie';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/' element={<Catalogue />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/create' element={<CreateMovie />} />
       </Routes>
       <Footer />
     </>
