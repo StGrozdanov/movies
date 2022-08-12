@@ -1,14 +1,20 @@
 import { useState } from 'react';
 import { NavLink } from "react-router-dom";
-
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import GuestNavigation from './GuestNavigation';
+import AuthenticatedNavigation from './AuthenticatedNavigation';
 
 function Navigation() {
     const [active, setActive] = useState('home');
+    const authenticationState = useSelector(state => state.authenticationState);
+
+    const isAuthenticated = authenticationState.isAuthenticated;
+    const user = authenticationState.user;
 
     return (
         <Navbar bg="light" expand="lg">
@@ -23,14 +29,15 @@ function Navigation() {
                         onSelect={(selectedKey) => setActive(selectedKey)}
                     >
                         <Nav.Link as={NavLink} to="/" eventKey={'home'} >Home</Nav.Link>
-                        <Nav.Link as={NavLink} to="/login" eventKey={'login'}>Login</Nav.Link>
-                        <Nav.Link as={NavLink} to="/register" eventKey={'register'}>Register</Nav.Link>
-                        <Nav.Link as={NavLink} to="/create" eventKey={'create'}>Create Movie</Nav.Link>
-                        <Nav.Link as={NavLink} to="/my-collection" eventKey={'my-collection'}>My Collection</Nav.Link>
-                        <Nav.Link as={NavLink} to="/liked" eventKey={'liked'}>Liked Movies</Nav.Link>
-                        <Nav.Link as={NavLink} to="/logout" eventKey={'logout'}>Logout</Nav.Link>
+                        {
+                            isAuthenticated
+                                ? AuthenticatedNavigation()
+                                : GuestNavigation()
+                        }
                     </Nav>
-                    <p style={{margin: 0, marginRight: 20}}>Welcome, Guest</p>
+                    <p style={{ margin: 0, marginRight: 20 }}>
+                        Welcome, {isAuthenticated ? user.username : 'Guest'}
+                    </p>
                     <Form className="d-flex">
                         <Form.Control
                             type="search"
