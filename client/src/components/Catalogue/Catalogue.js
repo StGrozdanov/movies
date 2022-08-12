@@ -21,7 +21,7 @@ function Catalogue() {
     return (
         <>
             <MovieList movies={movies} />
-            <PaginationBar moviesCount={moviesCount} />
+            <PaginationBar moviesCount={moviesCount} setMovies={setMovies} />
         </>
     );
 }
