@@ -14,6 +14,7 @@ const MOVIES_END_POINTS = {
     LIKE_MOVIE: (movieId) => `${MOVIE_END_POINT}/like/${movieId}`,
     UNLIKE_MOVIE: (movieId) => `${MOVIE_END_POINT}/dislike/${movieId}`,
     USER_CREATED_MOVIES: (userId) => `${MOVIE_END_POINT}/createdBy/${userId}`,
+    USER_LIKED_MOVIES: (userId) => `${MOVIE_END_POINT}/likedBy/${userId}`,
 }
 
 export async function getAllMovies(page) {
@@ -80,5 +81,10 @@ export async function editMovie(movieId, token, movieData) {
 
 export async function userCreatedMovies(userId) {
     const response = await fetch(BASE_URL + MOVIES_END_POINTS.USER_CREATED_MOVIES(userId));
+    return handleRequest(response, COULD_NOT_FETCH_MOVIES);
+}
+
+export async function userLikedMovies(userId) {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.USER_LIKED_MOVIES(userId));
     return handleRequest(response, COULD_NOT_FETCH_MOVIES);
 }
