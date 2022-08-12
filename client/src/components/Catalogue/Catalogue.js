@@ -11,7 +11,7 @@ function Catalogue() {
 
     useEffect(() => {
         const currentPage = location.search.split('=')[1] || 1;
-        getAllMovies(currentPage).then(setMovies(movies)).catch(err => console.log(err));
+        getAllMovies(currentPage).then(movies => setMovies(movies)).catch(err => console.log(err));
     }, []);
 
     useEffect(() => {

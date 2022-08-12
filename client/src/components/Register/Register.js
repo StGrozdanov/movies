@@ -24,7 +24,7 @@ function Register() {
             return;
         }
 
-        const formData = new FormData(event.target);
+        const formData = new FormData(form);
         let { username, password } = Object.fromEntries(formData);
 
         const response = await register({ username, password });
