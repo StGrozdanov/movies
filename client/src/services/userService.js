@@ -1,6 +1,6 @@
-import { COULD_NOT_LOGIN } from "../constants/requestConstants";
+import { COULD_NOT_LOGOUT } from "../constants/requestConstants";
 import { handleRequest } from "../utils/requestHandler";
-import { BASE_HEADERS, BASE_URL } from "./backendService";
+import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./backendService";
 
 const USER_END_POINT = '/authenticate';
 
@@ -17,4 +17,13 @@ export async function login(credentials) {
         body: JSON.stringify(credentials)
     });
     return response;
+}
+
+export async function logout(sessionToken) {
+    const response = await fetch(BASE_URL + USERS_END_POINTS.LOGOUT, {
+        method: 'POST',
+        headers: BASE_HEADERS,
+        body: JSON.stringify({ sessionToken })
+    });
+    await handleRequest(response, COULD_NOT_LOGOUT);
 }

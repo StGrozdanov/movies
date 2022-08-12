@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { NavLink } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -11,6 +11,8 @@ import AuthenticatedNavigation from './AuthenticatedNavigation';
 
 function Navigation() {
     const [active, setActive] = useState('home');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const authenticationState = useSelector(state => state.authenticationState);
 
     const isAuthenticated = authenticationState.isAuthenticated;
@@ -31,8 +33,8 @@ function Navigation() {
                         <Nav.Link as={NavLink} to="/" eventKey={'home'} >Home</Nav.Link>
                         {
                             isAuthenticated
-                                ? AuthenticatedNavigation()
-                                : GuestNavigation()
+                                ? <AuthenticatedNavigation dispatch={dispatch} navigate={navigate} user={user} />
+                                : <GuestNavigation />
                         }
                     </Nav>
                     <p style={{ margin: 0, marginRight: 20 }}>
