@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const movieController = require('./controllers/movieController');
+const authenticationController = require('./controllers/authenticationController');
 
 const { SERVER_RUNNING, DB_CONNECTION_ERROR, DB_CONNECTED } = require('./constants/serverMessages');
 
 require('dotenv').config();
-const routes = require('./routes');
 const blacklistScheduler = require('./schedulers/blacklistScheduler');
 const cors = require('./middlewares/corsMiddleware');
 
@@ -23,8 +24,9 @@ async function start() {
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-    app.use(routes);
-    app.use(cors);
+    app.use(cors());
+    app.use('/movies', movieController);
+    app.use('/authenticate', authenticationController);
 
     await blacklistScheduler();
     

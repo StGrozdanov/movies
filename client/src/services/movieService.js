@@ -1,0 +1,21 @@
+import { COULD_NOT_FETCH_MOVIES } from "../constants/requestConstants";
+import { handleRequest } from "../utils/requestHandler";
+import { BASE_HEADERS, BASE_URL, MODIFIYNG_OPERATIONS_HEADERS } from "./backendService";
+
+export const MOVIES_PER_PAGE = 4;
+export const MOVIE_END_POINT = '/movies';
+
+const MOVIES_END_POINTS = {
+    ALL_MOVIES: (page) =>  `${MOVIE_END_POINT}?limit=${MOVIES_PER_PAGE}&skip=${(page - 1)}`,
+    COUNT_MOVIES: `${MOVIE_END_POINT}/count/all`,
+}
+
+export async function getAllMovies(page) {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.ALL_MOVIES(page));
+    return handleRequest(response, COULD_NOT_FETCH_MOVIES);
+}
+
+export async function countMovies() {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.COUNT_MOVIES);
+    return handleRequest(response, COULD_NOT_FETCH_MOVIES);
+}

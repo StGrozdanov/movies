@@ -31,6 +31,8 @@ const likeMovie = (movie, userId) => {
     return movie.likedBy.length;
 }
 
+const moviesCount = () => Movie.countDocuments({}).exec();
+
 module.exports = {
     getAllMovies,
     createMovie,
@@ -39,4 +41,5 @@ module.exports = {
     getById,
     findMoviesByTitle,
     likeMovie,
+    moviesCount,
 };

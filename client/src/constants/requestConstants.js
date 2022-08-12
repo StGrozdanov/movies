@@ -1,0 +1,1 @@
+export const COULD_NOT_FETCH_MOVIES = 'Something went wrong while trying to load the movies. Please try again later';

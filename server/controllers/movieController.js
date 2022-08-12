@@ -47,10 +47,15 @@ router.get('/:id', idPreloadMiddleware(movieService), async (request, response) 
 router.post('/like/:id', isAuthorized(), idPreloadMiddleware(movieService), async (request, response) => {
     try {
         const likesCount = await movieService.likeMovie(response.locals.item, request.user._id)
-        response.json({likesCount: likesCount}).status(201);
+        response.json({ likesCount: likesCount }).status(201);
     } catch (error) {
         response.status(400).json({ message: error.message });
     }
+});
+
+router.get('/count/all', async (request, response) => {
+    const moviesCount = await movieService.moviesCount();
+    response.json({ count: moviesCount })
 });
 
 function handleUniqueConstraintError(errorMessage) {

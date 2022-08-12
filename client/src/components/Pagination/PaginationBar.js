@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import Pagination from 'react-bootstrap/Pagination';
 
-function PaginationBar() {
+function PaginationBar({ moviesCount }) {
+  const [active, setActive] = useState(1);
+
+  let items = [];
+  for (let number = 1; number <= moviesCount; number++) {
+    items.push(
+      <Pagination.Item key={number} active={number === active} onClick={() => setActive(number)}>
+        {number}
+      </Pagination.Item>,
+    );
+  }
   return (
     <div style={{ marginTop: 20, display: "flex", alignContent: "center", justifyContent: "center" }}>
       <Pagination>
         <Pagination.First />
-        <Pagination.Item active>{1}</Pagination.Item>
-        <Pagination.Item>{2}</Pagination.Item>
-        <Pagination.Item>{3}</Pagination.Item>
-        <Pagination.Item>{4}</Pagination.Item>
+        {items}
         <Pagination.Last />
       </Pagination>
     </div>
