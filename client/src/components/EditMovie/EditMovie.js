@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { createMovie } from '../../services/movieService';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createMovie, editMovie, getSingleMovie } from '../../services/movieService';
 
 const currentYear = new Date(Date.now()).getFullYear();
 
-function CreateMovie() {
+function EditMovie() {
     const [validated, setValidated] = useState(false);
+    const [movie, setMovie] = useState({});
     const token = useSelector(state => state.authenticationState.user.sessionToken);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const params = useParams();
+    const movieId = params.id;
+
+    useEffect(() => {
+        getSingleMovie(movieId).then(movie => setMovie(movie)).catch(err => console.log(err));
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -27,8 +34,8 @@ function CreateMovie() {
         const formData = new FormData(form);
         let { title, imageUrl, description, year } = Object.fromEntries(formData);
 
-        const createdMovie = await createMovie({ title, imageUrl, description, year }, token);
-        navigate(`/details/${createdMovie._id}`);
+        await editMovie(movieId, token, { title, imageUrl, description, year });
+        navigate(`/details/${movieId}`);
     };
 
     return (
@@ -44,6 +51,7 @@ function CreateMovie() {
                             type="text"
                             placeholder="Movie title"
                             name='title'
+                            defaultValue={movie.title}
                         />
                         <Form.Control.Feedback type="invalid">
                             Movie title should be at least 2 characters long.
@@ -59,6 +67,7 @@ function CreateMovie() {
                             type="number"
                             placeholder="Year"
                             name='year'
+                            defaultValue={movie.year}
                         />
                         <Form.Control.Feedback type="invalid">
                             Movie release year should be between 1988 and {currentYear}
@@ -73,6 +82,7 @@ function CreateMovie() {
                             type="text"
                             placeholder="Cover image"
                             name='imageUrl'
+                            defaultValue={movie.imageUrl}
                         />
                         <Form.Control.Feedback type="invalid">
                             Should be valid picture url.
@@ -89,16 +99,17 @@ function CreateMovie() {
                             placeholder="Description"
                             name='description'
                             required
+                            defaultValue={movie.description}
                         />
                         <Form.Control.Feedback type="invalid">
                             Please provide a description.
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
-                <Button style={{ margin: '20px auto', display: 'block' }} type="submit">Create</Button>
+                <Button style={{ margin: '20px auto', display: 'block' }} type="submit">Edit</Button>
             </Form>
         </div>
     );
 }
 
-export default CreateMovie;
+export default EditMovie;

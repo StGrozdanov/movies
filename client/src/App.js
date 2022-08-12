@@ -10,6 +10,7 @@ import UserMovieCollection from './components/UserMovieCollection/UserMovieColle
 import LikedMovies from './components/LikedMovies/LikedMovies';
 import MovieDetails from './components/MovieDetails/MovieDetails';
 import SearchMovies from './components/SearchMovies/SearchMovies';
+import EditMovie from './components/EditMovie/EditMovie';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path='/liked' element={<LikedMovies />} />
         <Route path='/search' element={<SearchMovies />} />
         <Route path='/details/:id' element={<MovieDetails />} />
+        <Route path='/edit/:id' element={<EditMovie />} />
       </Routes>
       <Footer />
     </>

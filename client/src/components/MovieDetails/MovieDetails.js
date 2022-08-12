@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getSingleMovie, likeMovie, unlikeMovie } from "../../services/movieService";
+import { useNavigate, useParams } from "react-router-dom";
+import { deleteMovie, editMovie, getSingleMovie, likeMovie, unlikeMovie } from "../../services/movieService";
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import { useSelector } from "react-redux";
@@ -21,12 +21,12 @@ function MovieDetails() {
     const [movie, setMovie] = useState({});
     const [likes, setLikes] = useState(0);
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(false);
-
     const params = useParams();
     const authenticationState = useSelector(state => state.authenticationState);
+    const navigate = useNavigate();
+
     const currentUser = authenticationState.user;
     const isAuthenticated = authenticationState.isAuthenticated;
-
     const movieId = params.id;
 
     useEffect(() => {
@@ -49,6 +49,13 @@ function MovieDetails() {
         await unlikeMovie(movieId, currentUser.sessionToken);
         setLikes((likes) => likes -= 1);
         setLikedByCurrentUser(false);
+    }
+
+    const isOwner = currentUser._id === movie._ownerId;
+
+    async function deleteHandler() {
+        await deleteMovie(movieId, currentUser.sessionToken);
+        navigate('/');
     }
 
     return (
@@ -90,7 +97,7 @@ function MovieDetails() {
                             </Badge>
                         </div>
                         {
-                            isAuthenticated
+                            isOwner
                             &&
                             <div
                                 style={{
@@ -101,8 +108,20 @@ function MovieDetails() {
                                     marginTop: 20,
                                 }}
                             >
-                                <Button variant="warning" style={{ width: 75, marginRight: 20 }}>Edit</Button>
-                                <Button variant="danger" style={{ width: 75 }}>Delete</Button>
+                                <Button
+                                    variant="warning"
+                                    style={{ width: 75, marginRight: 20 }}
+                                    onClick={() => navigate(`/edit/${movieId}`)}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    variant="danger"
+                                    style={{ width: 75 }}
+                                    onClick={deleteHandler}
+                                >
+                                    Delete
+                                </Button>
                             </div>
                         }
 

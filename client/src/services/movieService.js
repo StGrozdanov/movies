@@ -59,3 +59,20 @@ export async function unlikeMovie(movieId, token) {
     });
     return handleRequest(response, COULD_NOT_CREATE_MOVIE);
 }
+
+export async function deleteMovie(movieId, token) {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.SINGLE_MOVIE(movieId), {
+        method: 'DELETE',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(token),
+    });
+    return handleRequest(response, COULD_NOT_CREATE_MOVIE);
+}
+
+export async function editMovie(movieId, token, movieData) {
+    const response = await fetch(BASE_URL + MOVIES_END_POINTS.SINGLE_MOVIE(movieId), {
+        method: 'PUT',
+        headers: MODIFIYNG_OPERATIONS_HEADERS(token),
+        body: JSON.stringify(movieData),
+    });
+    return handleRequest(response, COULD_NOT_CREATE_MOVIE);
+}
