@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { NavLink } from 'react-router-dom';
 import styles from './MovieCard.module.css';
 
 function MovieCard({ movie }) {
@@ -11,7 +12,7 @@ function MovieCard({ movie }) {
             <Card.Body>
                 <Card.Title style={{ textAlign: "center" }}>{movie.title}</Card.Title>
                 <Card.Text>{description}</Card.Text>
-                <Button variant="primary">Details</Button>
+                <Button as={NavLink} to={`/details/${movie._id}`} variant="primary">Details</Button>
             </Card.Body>
         </Card>
     );
