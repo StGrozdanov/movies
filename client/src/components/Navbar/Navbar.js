@@ -26,7 +26,11 @@ function Navigation() {
                         <Nav.Link as={NavLink} to="/login" eventKey={'login'}>Login</Nav.Link>
                         <Nav.Link as={NavLink} to="/register" eventKey={'register'}>Register</Nav.Link>
                         <Nav.Link as={NavLink} to="/create" eventKey={'create'}>Create Movie</Nav.Link>
+                        <Nav.Link as={NavLink} to="/my-collection" eventKey={'my-collection'}>My Collection</Nav.Link>
+                        <Nav.Link as={NavLink} to="/liked" eventKey={'liked'}>Liked Movies</Nav.Link>
+                        <Nav.Link as={NavLink} to="/logout" eventKey={'logout'}>Logout</Nav.Link>
                     </Nav>
+                    <p style={{margin: 0, marginRight: 20}}>Welcome, Guest</p>
                     <Form className="d-flex">
                         <Form.Control
                             type="search"

@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.user-avatar {
+    display: block;
+    margin-bottom: 25px;
+    margin-top: 20px;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+}
+
+.user-content {
+    margin-top: 50px;
+    margin-left: 30px;
+    text-align: left;
+}
+
+@media all and (max-width: 920px) {
+    .container {
+        flex-direction: column;
+    }
+}
