@@ -1,23 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteMovie, editMovie, getSingleMovie, likeMovie, unlikeMovie } from "../../services/movieService";
+import { deleteMovie, getSingleMovie, likeMovie, unlikeMovie } from "../../services/movieService";
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 import useCurrentUser from '../../hooks/useCurrentUser'
 import ConfirmModal from "../Common/ConfirmModal";
-
-function LikesButton({ handler, title, className }) {
-    return (
-        <button
-            className={className}
-            style={{ marginRight: 10 }}
-            onClick={handler}
-        >
-            {title}
-        </button>
-    );
-}
+import LikeUnlikeButton from '../LikeUnlikeButton/LikeUnlikeButton'
 
 function MovieDetails() {
     const [movie, setMovie] = useState({});
@@ -30,6 +19,7 @@ function MovieDetails() {
     const isAuthenticated = useIsAuthenticated();
 
     const movieId = params.id;
+    const isOwner = currentUser._id === movie._ownerId;
 
     useEffect(() => {
         getSingleMovie(movieId)
@@ -52,8 +42,6 @@ function MovieDetails() {
         setLikes((likes) => likes -= 1);
         setLikedByCurrentUser(false);
     }
-
-    const isOwner = currentUser._id === movie._ownerId;
 
     async function deleteHandler() {
         await deleteMovie(movieId, currentUser.sessionToken);
@@ -92,8 +80,16 @@ function MovieDetails() {
                                 isAuthenticated
                                     ?
                                     likedByCurrentUser
-                                        ? <LikesButton title={'Unlike'} handler={unlikeHandler} className={'btn btn-danger'} />
-                                        : <LikesButton title={'Like'} handler={likeHandler} className={'btn btn-success'} />
+                                        ? <LikeUnlikeButton
+                                            title={'Unlike'}
+                                            handler={unlikeHandler}
+                                            className={'btn btn-danger'}
+                                        />
+                                        : <LikeUnlikeButton
+                                            title={'Like'}
+                                            handler={likeHandler}
+                                            className={'btn btn-success'}
+                                        />
                                     : ''
 
                             }
@@ -139,7 +135,7 @@ function MovieDetails() {
                 showModal={showModal}
                 hideModal={hideModalHandler}
                 handler={deleteHandler}
-            />  
+            />
         </div>
     );
 }
