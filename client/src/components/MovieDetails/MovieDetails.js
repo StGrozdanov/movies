@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 import useCurrentUser from '../../hooks/useCurrentUser'
+import ConfirmModal from "../Common/ConfirmModal";
 
 function LikesButton({ handler, title, className }) {
     return (
@@ -22,11 +23,12 @@ function MovieDetails() {
     const [movie, setMovie] = useState({});
     const [likes, setLikes] = useState(0);
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
     const currentUser = useCurrentUser();
     const isAuthenticated = useIsAuthenticated();
-    
+
     const movieId = params.id;
 
     useEffect(() => {
@@ -56,6 +58,10 @@ function MovieDetails() {
     async function deleteHandler() {
         await deleteMovie(movieId, currentUser.sessionToken);
         navigate('/');
+    }
+
+    function hideModalHandler() {
+        setShowModal(false);
     }
 
     return (
@@ -118,7 +124,7 @@ function MovieDetails() {
                                 <Button
                                     variant="danger"
                                     style={{ width: 75 }}
-                                    onClick={deleteHandler}
+                                    onClick={() => setShowModal(true)}
                                 >
                                     Delete
                                 </Button>
@@ -128,6 +134,12 @@ function MovieDetails() {
                     </div>
                 </div>
             </div>
+            <ConfirmModal
+                message={`You are about to delete ${movie.title}`}
+                showModal={showModal}
+                hideModal={hideModalHandler}
+                handler={deleteHandler}
+            />  
         </div>
     );
 }
