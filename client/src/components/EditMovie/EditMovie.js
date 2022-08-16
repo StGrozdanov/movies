@@ -3,16 +3,15 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createMovie, editMovie, getSingleMovie } from '../../services/movieService';
+import isAuthorized from '../../hocs/isAuthenticatedHoc';
+import { editMovie, getSingleMovie } from '../../services/movieService';
 
 const currentYear = new Date(Date.now()).getFullYear();
 
-function EditMovie() {
+function EditMovie({ token }) {
     const [validated, setValidated] = useState(false);
     const [movie, setMovie] = useState({});
-    const token = useSelector(state => state.authenticationState.user.sessionToken);
     const navigate = useNavigate();
     const params = useParams();
     const movieId = params.id;
@@ -112,4 +111,4 @@ function EditMovie() {
     );
 }
 
-export default EditMovie;
+export default isAuthorized(EditMovie);

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import isAuthorized from "../../hocs/isAuthenticatedHoc";
 import { userLikedMovies } from "../../services/movieService";
 import MovieList from "../MovieList/MovieList";
 
-function LikedMovies() {
+function LikedMovies({ currentUser }) {
     const [movies, setMovies] = useState([]);
-    const currentUser = useSelector(state => state.authenticationState.user);
     
     useEffect(() => {
         userLikedMovies(currentUser._id).then(movies => setMovies(movies)).catch(err => console.log(err));
@@ -20,4 +19,4 @@ function LikedMovies() {
     );
 }
 
-export default LikedMovies;
+export default isAuthorized(LikedMovies);

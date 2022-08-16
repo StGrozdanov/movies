@@ -3,15 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createMovie } from '../../services/movieService';
+import isAuthorized from '../../hocs/isAuthenticatedHoc';
 
 const currentYear = new Date(Date.now()).getFullYear();
 
-function CreateMovie() {
+function CreateMovie({ token }) {
     const [validated, setValidated] = useState(false);
-    const token = useSelector(state => state.authenticationState.user.sessionToken);
     const navigate = useNavigate(); 
 
     const handleSubmit = async (event) => {
@@ -101,4 +100,5 @@ function CreateMovie() {
     );
 }
 
-export default CreateMovie;
+
+export default isAuthorized(CreateMovie);
