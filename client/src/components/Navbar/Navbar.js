@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
+import useCurrentUser from '../../hooks/useCurrentUser'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -13,10 +15,8 @@ function Navigation() {
     const [active, setActive] = useState('home');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const authenticationState = useSelector(state => state.authenticationState);
-
-    const isAuthenticated = authenticationState.isAuthenticated;
-    const user = authenticationState.user;
+    const isAuthenticated = useIsAuthenticated();
+    const user = useCurrentUser();
 
     function searchHandler(e) {
         e.preventDefault();

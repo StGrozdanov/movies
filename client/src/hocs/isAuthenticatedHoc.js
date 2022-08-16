@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import useCurrentUser from "../hooks/useCurrentUser";
+import useIsAuthenticated from "../hooks/useIsAuthenticated";
 
 const isAuthorized = (Component) => {
 
     const WrapperComponent = (props) => {
-        const authenticationState = useSelector(state => state.authenticationState);
-        const isAuthenticated = authenticationState.isAuthenticated;
-        const currentUser = authenticationState.user;
+        const isAuthenticated = useIsAuthenticated();
+        const currentUser = useCurrentUser();
 
         return isAuthenticated
             ? <Component {...props} currentUser={currentUser} token={currentUser.sessionToken} />
