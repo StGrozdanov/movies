@@ -1,9 +1,8 @@
+import { v4 as uuid } from 'uuid';
 import MovieCard from "../MovieCard/MovieCard";
 import styles from './Catalogue.module.css';
-import { v4 as uuid } from 'uuid';
 
 function MovieList({ movies, heading, missingMessage }) {
-    
     return (
         <section className={styles['catalogue-section']}>
             <h3 className={styles.heading}>{heading}</h3>

@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react";
 import isAuthorized from "../../hocs/isAuthenticatedHoc";
 import { userCreatedMovies } from "../../services/movieService";
+import LoadingMovieList from "../MovieList/LoadingMovieList";
 import MovieList from "../MovieList/MovieList";
 import styles from './Catalogue.module.css';
 
 function UserMovieCollection({ currentUser }) {
     const [movies, setMovies] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        userCreatedMovies(currentUser._id).then(movies => setMovies(movies)).catch(err => console.log(err));
+        userCreatedMovies(currentUser._id)
+            .then(movies => {
+                setMovies(movies);
+                setIsLoading(false);
+            })
+            .catch(err => {
+                setIsLoading(true);
+                console.log(err);
+            });
     }, []);
 
     return (
@@ -24,11 +34,17 @@ function UserMovieCollection({ currentUser }) {
                     <p>My Movies Count: {movies.length}</p>
                 </span>
             </article>
-            <MovieList
-                movies={movies}
-                heading={'Created Movies'}
-                missingMessage={'You have not created any movies yet'}
-            />
+            {
+                isLoading
+                    ?
+                    <LoadingMovieList />
+                    :
+                    <MovieList
+                        movies={movies}
+                        heading={'Created Movies'}
+                        missingMessage={'You have not created any movies yet'}
+                    />
+            }
         </>
     );
 }
