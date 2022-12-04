@@ -10,6 +10,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import GuestNavigation from './GuestNavigation';
 import AuthenticatedNavigation from './AuthenticatedNavigation';
+import styles from './Navbar.module.css';
 
 function Navigation() {
     const [active, setActive] = useState('home');
@@ -30,6 +31,9 @@ function Navigation() {
     return (
         <Navbar bg="light" expand="lg">
             <Container fluid>
+                <div className={styles['brand-image-container']}>
+                    <img className={styles['brand-image']} src="pictures/favicon.ico" alt="broken img" />
+                </div>
                 <Navbar.Brand as={NavLink} to="/">Movies</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
