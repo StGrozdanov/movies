@@ -6,3 +6,9 @@
     width: 1.4rem;
     margin-right: 6px;
 }
+
+@media all and (max-width: 990px) {
+    .brand {
+        margin: 0px;
+    }
+}
