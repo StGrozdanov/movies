@@ -1,3 +1,13 @@
+.card {
+    width: 16rem;
+    height: 480px;
+}
+
+.cardHeading {
+    text-align: center;
+    font-size: 1.11rem;
+}
+
 @media all and (max-width: 920px) {
     .card {
         margin-top: 20px;
