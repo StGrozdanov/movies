@@ -19,10 +19,10 @@ function UserMovieCollection({ currentUser }) {
                     src="https://staffsenate.uncg.edu/wp-content/uploads/2018/11/Avatar.png"
                     alt="user-profile"
                 />
-                <body className={styles["user-content"]}>
+                <span className={styles["user-content"]}>
                     <p>Username: {currentUser.username}</p>
                     <p>My Movies Count: {movies.length}</p>
-                </body>
+                </span>
             </article>
             <MovieList
                 movies={movies}
