@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 import useCurrentUser from '../../hooks/useCurrentUser'
@@ -14,10 +14,13 @@ import styles from './Navbar.module.css';
 
 function Navigation() {
     const [active, setActive] = useState('home');
+    const [searchField, setSearchField] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuthenticated = useIsAuthenticated();
     const user = useCurrentUser();
+
+    useEffect(() => setSearchField(''), [active]);
 
     function searchHandler(e) {
         e.preventDefault();
@@ -60,6 +63,8 @@ function Navigation() {
                             className="me-2"
                             aria-label="Search"
                             name='search'
+                            value={searchField}
+                            onChange={(e) => setSearchField(e.target.value)}
                         />
                         <Button variant="outline-success" type='submit'>Search</Button>
                     </Form>
