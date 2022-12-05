@@ -3,6 +3,35 @@
     margin: 20px auto
 }
 
+.heading {
+    text-align: center;
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.heading::after {
+    content: "";
+    border: 0.1rem solid #455a64;
+    width: 25%;
+    left: 63%;
+    position: absolute;
+    top: 60%;
+}
+
+.heading::before {
+    content: "";
+    border: 0.1rem solid #455a64;
+    width: 25%;
+    top: 60%;
+    right: 63%;
+    position: absolute;
+}
+
+.form-button {
+    margin: 0 auto; 
+    display: block;
+}
+
 @media all and (max-width: 680px) {
     .container {
         width: 90vw

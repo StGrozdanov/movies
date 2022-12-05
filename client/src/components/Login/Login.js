@@ -36,7 +36,7 @@ function Login() {
 
     return (
         <div className={styles.container}>
-            <h3 style={{ textAlign: "center" }}>Login</h3>
+            <h3 className={styles.heading}>Login</h3>
             <Form noValidate onSubmit={submitHandler}>
                 {
                     !validated
@@ -44,7 +44,6 @@ function Login() {
                         : ''
                 }
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Username</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Username.."
@@ -54,7 +53,6 @@ function Login() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
                         placeholder="Password.."
@@ -62,7 +60,7 @@ function Login() {
                         isInvalid={!validated && formSubmited}
                     />
                 </Form.Group>
-                <Button variant="primary" type="submit">Login</Button>
+                <Button className={styles['form-button']} variant="primary" type="submit">Continue</Button>
             </Form>
         </div>
     )

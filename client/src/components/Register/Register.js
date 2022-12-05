@@ -40,10 +40,9 @@ function Register() {
 
     return (
         <div className={styles.container}>
-            <h3 style={{ textAlign: "center" }}>Register</h3>
+            <h3 className={styles.heading}>Register</h3>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Username</Form.Label>
                     <Form.Control type="text" placeholder="Username.." name='username' required minLength={3} />
                     <Form.Control.Feedback type="invalid">
                         Usernames should be at least 3 characters long.
@@ -52,7 +51,6 @@ function Register() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
                         placeholder="Password.."
@@ -68,7 +66,6 @@ function Register() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicRePassword">
-                    <Form.Label>Repeat password</Form.Label>
                     <Form.Control
                         type="password"
                         placeholder="Repeat Password.."
@@ -82,7 +79,7 @@ function Register() {
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">Register</Button>
+                <Button className={styles['form-button']} variant="primary" type="submit">Continue</Button>
             </Form>
         </div>
     )
