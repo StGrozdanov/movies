@@ -41,7 +41,6 @@ function CreateMovie({ token }) {
                             required
                             minLength={2}
                             type="text"
-                            placeholder="Movie title"
                             name='title'
                         />
                         <Form.Control.Feedback type="invalid">
@@ -56,7 +55,6 @@ function CreateMovie({ token }) {
                             min={1988}
                             max={currentYear}
                             type="number"
-                            placeholder="Year"
                             name='year'
                         />
                         <Form.Control.Feedback type="invalid">
@@ -70,7 +68,6 @@ function CreateMovie({ token }) {
                             required
                             pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)"
                             type="text"
-                            placeholder="Cover image"
                             name='imageUrl'
                         />
                         <Form.Control.Feedback type="invalid">
@@ -85,7 +82,6 @@ function CreateMovie({ token }) {
                         <Form.Control
                             as="textarea"
                             rows={6}
-                            placeholder="Description"
                             name='description'
                             required
                         />
