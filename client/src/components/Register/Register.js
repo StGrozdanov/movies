@@ -11,6 +11,7 @@ import styles from './Register.module.css';
 function Register() {
     const [password, setPassword] = useState('');
     const [validated, setValidated] = useState(false);
+    const [invalidRequestMessage, setInvalidRequestMessage] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -33,6 +34,9 @@ function Register() {
         if (response.ok) {
             dispatch(loginAction(data));
             navigate('/');
+        } else if (response.status === 400) {
+            setInvalidRequestMessage(data.message);
+            setValidated(false);
         } else {
             setValidated(false);
         }
@@ -41,6 +45,7 @@ function Register() {
     return (
         <div className={styles.container}>
             <h3 className={styles.heading}>Register</h3>
+            <h6 className={styles['warning-heading']}>{invalidRequestMessage}</h6>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Control type="text" placeholder="Username.." name='username' required minLength={3} />

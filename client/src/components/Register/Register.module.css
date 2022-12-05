@@ -28,8 +28,14 @@
 }
 
 .form-button {
-    margin: 0 auto; 
+    margin: 0 auto;
     display: block;
+}
+
+.warning-heading {
+    text-align: center;
+    color: darkred;
+    margin-bottom: 20px;
 }
 
 @media all and (max-width: 680px) {
