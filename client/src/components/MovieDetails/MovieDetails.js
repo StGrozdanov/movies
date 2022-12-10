@@ -81,7 +81,7 @@ function MovieDetails() {
                                 justifyContent: 'center',
                             }}
                         >
-                            {isAuthenticated && likedByCurrentUser && likeButton}
+                            {isAuthenticated && likeButton}
                             <Badge bg="primary" style={{ padding: 5, fontSize: '100%' }}>
                                 <span style={{ marginRight: 5 }}>Likes</span>
                                 <Badge bg="info">{likes}</Badge>
