@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 import useCurrentUser from '../../hooks/useCurrentUser'

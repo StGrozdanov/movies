@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteMovie, getSingleMovie, likeMovie, unlikeMovie } from "../../services/movieService";
-import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 import useCurrentUser from '../../hooks/useCurrentUser'
 import ConfirmModal from "../Common/ConfirmModal";
 import LikeUnlikeButton from '../LikeUnlikeButton/LikeUnlikeButton'
+import MovieDetailsControl from "./MovieDetailsControl";
 
 function MovieDetails() {
     const [movie, setMovie] = useState({});
     const [likes, setLikes] = useState(0);
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [isOwner, setIsOwner] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
     const currentUser = useCurrentUser();
     const isAuthenticated = useIsAuthenticated();
 
     const movieId = params.id;
-    const isOwner = currentUser._id === movie._ownerId;
 
     useEffect(() => {
         getSingleMovie(movieId)
@@ -27,6 +27,7 @@ function MovieDetails() {
                 setMovie(movie);
                 setLikes(movie.likedBy.length);
                 movie.likedBy.includes(currentUser._id) && setLikedByCurrentUser(true);
+                isAuthenticated && currentUser._id === movie._ownerId ? setIsOwner(true) : setIsOwner(false);
             })
             .catch(err => console.log(err));
     }, []);
@@ -52,6 +53,10 @@ function MovieDetails() {
         setShowModal(false);
     }
 
+    const likeButton = likedByCurrentUser
+        ? <LikeUnlikeButton likedByCurrentUser={likedByCurrentUser} handler={unlikeHandler} />
+        : <LikeUnlikeButton likedByCurrentUser={likedByCurrentUser} handler={likeHandler} />
+
     return (
         <div className="card mb-3" style={{ width: '60vw', margin: '20px auto' }}>
             <div className="row g-0">
@@ -76,57 +81,13 @@ function MovieDetails() {
                                 justifyContent: 'center',
                             }}
                         >
-                            {
-                                isAuthenticated
-                                    ?
-                                    likedByCurrentUser
-                                        ? <LikeUnlikeButton
-                                            title={'Unlike'}
-                                            handler={unlikeHandler}
-                                            className={'btn btn-danger'}
-                                        />
-                                        : <LikeUnlikeButton
-                                            title={'Like'}
-                                            handler={likeHandler}
-                                            className={'btn btn-success'}
-                                        />
-                                    : ''
-
-                            }
+                            {isAuthenticated && likedByCurrentUser && likeButton}
                             <Badge bg="primary" style={{ padding: 5, fontSize: '100%' }}>
                                 <span style={{ marginRight: 5 }}>Likes</span>
                                 <Badge bg="info">{likes}</Badge>
                             </Badge>
                         </div>
-                        {
-                            isOwner
-                            &&
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    alignContent: 'center',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    marginTop: 20,
-                                }}
-                            >
-                                <Button
-                                    variant="warning"
-                                    style={{ width: 75, marginRight: 20 }}
-                                    onClick={() => navigate(`/edit/${movieId}`)}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    variant="danger"
-                                    style={{ width: 75 }}
-                                    onClick={() => setShowModal(true)}
-                                >
-                                    Delete
-                                </Button>
-                            </div>
-                        }
-
+                        {isOwner && <MovieDetailsControl setShowModal={setShowModal} />}
                     </div>
                 </div>
             </div>

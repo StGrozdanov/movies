@@ -1,7 +1,9 @@
-function LikeUnlikeButton({ handler, title, className }) {
+function LikeUnlikeButton({ likedByCurrentUser, handler }) {
+    const buttonClass = likedByCurrentUser ? 'btn btn-danger' : 'btn btn-success';
+    const title = likedByCurrentUser ? 'Unlike' : 'Like';
     return (
         <button
-            className={className}
+            className={buttonClass}
             style={{ marginRight: 10 }}
             onClick={handler}
         >
