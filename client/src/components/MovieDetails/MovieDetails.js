@@ -14,6 +14,7 @@ function MovieDetails() {
     const [likedByCurrentUser, setLikedByCurrentUser] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const params = useParams();
     const navigate = useNavigate();
     const currentUser = useCurrentUser();
@@ -26,6 +27,7 @@ function MovieDetails() {
             .then(movie => {
                 setMovie(movie);
                 setLikes(movie.likedBy.length);
+                setIsLoading(false);
                 movie.likedBy.includes(currentUser._id) && setLikedByCurrentUser(true);
                 isAuthenticated && currentUser._id === movie._ownerId ? setIsOwner(true) : setIsOwner(false);
             })
@@ -81,7 +83,7 @@ function MovieDetails() {
                                 justifyContent: 'center',
                             }}
                         >
-                            {isAuthenticated && likeButton}
+                            {isLoading ? null : isAuthenticated && likeButton}
                             <Badge bg="primary" style={{ padding: 5, fontSize: '100%' }}>
                                 <span style={{ marginRight: 5 }}>Likes</span>
                                 <Badge bg="info">{likes}</Badge>
